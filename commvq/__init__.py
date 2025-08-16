@@ -12,8 +12,14 @@ The package is built up in layers:
 ``commvq.encoder``
     The paper's learned encoder: an MLP plus codebook whose decode is one matmul,
     trained end to end with a Gumbel-sigmoid binary code.
+``commvq.cache``
+    KV cache quantization policies (FP16, round-to-nearest, block codebook) and
+    the attention path with the RoPE rotation folded onto the key codes.
 """
 
+from .cache import (BlockKeyQuantizer, CachePolicy, EncoderValueQuantizer,
+                      exact_key_scores, exact_policy, folded_key_scores,
+                      rtn_policy)
 from .codebook import BlockCodebook, ResidualCodebook, design_matrix, n_params
 from .encoder import AdditiveEncoder, gumbel_sigmoid
 from .rope import (apply_rope, apply_rope_inverse, block_norms, rope_angles,
@@ -22,14 +28,21 @@ from .rope import (apply_rope, apply_rope_inverse, block_norms, rope_angles,
 __all__ = [
     "AdditiveEncoder",
     "BlockCodebook",
+    "BlockKeyQuantizer",
+    "CachePolicy",
+    "EncoderValueQuantizer",
     "ResidualCodebook",
     "apply_rope",
     "apply_rope_inverse",
     "block_norms",
     "design_matrix",
+    "exact_key_scores",
+    "exact_policy",
+    "folded_key_scores",
     "gumbel_sigmoid",
     "n_params",
     "rope_angles",
     "rope_frequencies",
     "rotation_matrices",
+    "rtn_policy",
 ]
