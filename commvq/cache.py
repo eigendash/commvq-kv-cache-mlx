@@ -50,7 +50,7 @@ class ExactQuantizer:
         return float(self.bits)
 
     def encode(self, x: mx.array):
-        return x.astype(mx.float16)
+        return x.astype(mx.float16 if self.bits <= 16 else mx.float32)
 
     def decode(self, codes: mx.array) -> mx.array:
         return codes.astype(mx.float32)
@@ -117,7 +117,8 @@ class BlockKeyQuantizer:
 
     @property
     def codebook_bytes(self) -> int:
-        return int(self.codebook.n_codebook_scalars * 4)
+        """Codebook cost, stored in float16 as in the paper."""
+        return int(self.codebook.n_codebook_scalars * 2)
 
     def encode(self, k: mx.array):
         shape = k.shape
@@ -147,7 +148,8 @@ class EncoderValueQuantizer:
 
     @property
     def codebook_bytes(self) -> int:
-        return int(self.encoder.n_codebook_scalars * 4)
+        """Codebook cost, stored in float16 as in the paper."""
+        return int(self.encoder.n_codebook_scalars * 2)
 
     def encode(self, v: mx.array):
         shape = v.shape
