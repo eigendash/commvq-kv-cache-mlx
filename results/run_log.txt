@@ -1,0 +1,142 @@
+CommVQ toy experiment (arXiv:2506.18879)
+  model: dim=64 heads=4 layers=2 head_dim=16 (8 RoPE blocks)
+  task:  256 tokens, 12 passkeys, 16 possible values (chance = 0.0625)
+  train: 1500 steps, batch 32, lr 0.003, seeds [0, 1, 2]
+  eval:  16 batches of 32 = 512 sequences per policy
+  arms:  keys 4/2-bit as R*log2(N_c') with N_c'=16/4 levels; values 4/2-bit as N_c/head_dim
+  'commvq-*'   commutative key codebook + learned additive value encoder (the paper's design)
+  'naive-*'    unconstrained key codebook + the *same* value encoders
+  'commvq-rtnv-*' commutative key codebook + per-channel RTN values (isolates the key path)
+
+[seed 0] training 1500 steps
+  [seed 0]  step   500/1500  loss 0.2899  lr 2.29e-03
+  [seed 0]  step  1000/1500  loss 0.0002  lr 8.65e-04
+  [seed 0]  step  1500/1500  loss 0.0001  lr 1.50e-04
+[seed 0] 107776 parameters, 45.5s, masked loss 2.9666 -> 0.0001
+[seed 0] calibration: 524288 pre-RoPE (head, token) key vectors per layer
+  [seed 0] rtn-4bit         per-channel scale, key round-trip rel. MSE 0.01680
+  [seed 0] rtn-2bit         per-channel scale, key round-trip rel. MSE 0.44490
+    value encoder layer 0: bits=4.0 round-trip rel. MSE 0.04901
+    value encoder layer 1: bits=4.0 round-trip rel. MSE 0.04774
+    value encoder layer 0: bits=2.0 round-trip rel. MSE 0.09583
+    value encoder layer 1: bits=2.0 round-trip rel. MSE 0.05643
+    commvq-4bit      key codebook layer 0: EM MSE 6.00313 -> 0.08617, round-trip rel. MSE 0.00926
+    commvq-4bit      key codebook layer 1: EM MSE 2.93000 -> 0.05481, round-trip rel. MSE 0.00637
+    naive-4bit       key codebook layer 0: EM MSE 4.95420 -> 0.06355, round-trip rel. MSE 0.00691
+    naive-4bit       key codebook layer 1: EM MSE 1.28793 -> 0.04042, round-trip rel. MSE 0.00475
+    commvq-2bit      key codebook layer 0: EM MSE 4.96097 -> 0.91918, round-trip rel. MSE 0.09693
+    commvq-2bit      key codebook layer 1: EM MSE 3.03046 -> 0.53048, round-trip rel. MSE 0.06007
+    naive-2bit       key codebook layer 0: EM MSE 3.12397 -> 0.72786, round-trip rel. MSE 0.07668
+    naive-2bit       key codebook layer 1: EM MSE 1.71023 -> 0.31364, round-trip rel. MSE 0.03577
+  [seed 0] fp32             accuracy 1.0000 (value-restricted 1.0000)
+  [seed 0] fp16             accuracy 1.0000 (value-restricted 1.0000)
+  [seed 0] rtn-4bit         accuracy 0.9941 (value-restricted 0.9941)
+  [seed 0] rtn-2bit         accuracy 0.5664 (value-restricted 0.5664)
+  [seed 0] commvq-4bit      accuracy 0.9883 (value-restricted 0.9883)
+  [seed 0] naive-4bit       accuracy 0.9590 (value-restricted 0.9590)
+  [seed 0] commvq-2bit      accuracy 0.9375 (value-restricted 0.9375)
+  [seed 0] naive-2bit       accuracy 0.9141 (value-restricted 0.9141)
+  [seed 0] commvq-rtnv-4bit accuracy 0.9961 (value-restricted 0.9961)
+  [seed 0] commvq-rtnv-2bit accuracy 0.9980 (value-restricted 0.9980)
+
+[seed 1] training 1500 steps
+  [seed 1]  step   500/1500  loss 0.2804  lr 2.29e-03
+  [seed 1]  step  1000/1500  loss 0.0795  lr 8.65e-04
+  [seed 1]  step  1500/1500  loss 0.0072  lr 1.50e-04
+[seed 1] 107776 parameters, 44.9s, masked loss 2.9141 -> 0.0035
+[seed 1] calibration: 524288 pre-RoPE (head, token) key vectors per layer
+  [seed 1] rtn-4bit         per-channel scale, key round-trip rel. MSE 0.01897
+  [seed 1] rtn-2bit         per-channel scale, key round-trip rel. MSE 0.55285
+    value encoder layer 0: bits=4.0 round-trip rel. MSE 0.08078
+    value encoder layer 1: bits=4.0 round-trip rel. MSE 0.05665
+    value encoder layer 0: bits=2.0 round-trip rel. MSE 0.12939
+    value encoder layer 1: bits=2.0 round-trip rel. MSE 0.08314
+    commvq-4bit      key codebook layer 0: EM MSE 5.70000 -> 0.08956, round-trip rel. MSE 0.00938
+    commvq-4bit      key codebook layer 1: EM MSE 2.84928 -> 0.05682, round-trip rel. MSE 0.00846
+    naive-4bit       key codebook layer 0: EM MSE 4.40746 -> 0.06802, round-trip rel. MSE 0.00702
+    naive-4bit       key codebook layer 1: EM MSE 1.81491 -> 0.05213, round-trip rel. MSE 0.00787
+    commvq-2bit      key codebook layer 0: EM MSE 4.48078 -> 1.05723, round-trip rel. MSE 0.11023
+    commvq-2bit      key codebook layer 1: EM MSE 2.47571 -> 0.53611, round-trip rel. MSE 0.07903
+    naive-2bit       key codebook layer 0: EM MSE 3.02192 -> 0.57137, round-trip rel. MSE 0.06014
+    naive-2bit       key codebook layer 1: EM MSE 1.50318 -> 0.43496, round-trip rel. MSE 0.06359
+  [seed 1] fp32             accuracy 0.9941 (value-restricted 0.9941)
+  [seed 1] fp16             accuracy 0.9941 (value-restricted 0.9941)
+  [seed 1] rtn-4bit         accuracy 0.9961 (value-restricted 0.9961)
+  [seed 1] rtn-2bit         accuracy 0.5781 (value-restricted 0.5781)
+  [seed 1] commvq-4bit      accuracy 0.9844 (value-restricted 0.9844)
+  [seed 1] naive-4bit       accuracy 0.9941 (value-restricted 0.9941)
+  [seed 1] commvq-2bit      accuracy 0.8887 (value-restricted 0.8887)
+  [seed 1] naive-2bit       accuracy 0.5137 (value-restricted 0.5137)
+  [seed 1] commvq-rtnv-4bit accuracy 0.9883 (value-restricted 0.9883)
+  [seed 1] commvq-rtnv-2bit accuracy 0.7617 (value-restricted 0.7617)
+
+[seed 2] training 1500 steps
+  [seed 2]  step   500/1500  loss 0.3931  lr 2.29e-03
+  [seed 2]  step  1000/1500  loss 0.0511  lr 8.65e-04
+  [seed 2]  step  1500/1500  loss 0.0017  lr 1.50e-04
+[seed 2] 107776 parameters, 43.0s, masked loss 2.9936 -> 0.0007
+[seed 2] calibration: 524288 pre-RoPE (head, token) key vectors per layer
+  [seed 2] rtn-4bit         per-channel scale, key round-trip rel. MSE 0.01918
+  [seed 2] rtn-2bit         per-channel scale, key round-trip rel. MSE 0.54519
+    value encoder layer 0: bits=4.0 round-trip rel. MSE 0.05218
+    value encoder layer 1: bits=4.0 round-trip rel. MSE 0.03438
+    value encoder layer 0: bits=2.0 round-trip rel. MSE 0.09213
+    value encoder layer 1: bits=2.0 round-trip rel. MSE 0.05657
+    commvq-4bit      key codebook layer 0: EM MSE 5.98509 -> 0.09839, round-trip rel. MSE 0.00903
+    commvq-4bit      key codebook layer 1: EM MSE 3.69726 -> 0.07096, round-trip rel. MSE 0.00669
+    naive-4bit       key codebook layer 0: EM MSE 4.56826 -> 0.08086, round-trip rel. MSE 0.00744
+    naive-4bit       key codebook layer 1: EM MSE 2.00429 -> 0.04993, round-trip rel. MSE 0.00477
+    commvq-2bit      key codebook layer 0: EM MSE 4.16415 -> 1.13883, round-trip rel. MSE 0.10528
+    commvq-2bit      key codebook layer 1: EM MSE 3.62622 -> 0.58636, round-trip rel. MSE 0.05559
+    naive-2bit       key codebook layer 0: EM MSE 2.72468 -> 0.74732, round-trip rel. MSE 0.06953
+    naive-2bit       key codebook layer 1: EM MSE 2.28730 -> 0.41593, round-trip rel. MSE 0.03919
+  [seed 2] fp32             accuracy 1.0000 (value-restricted 1.0000)
+  [seed 2] fp16             accuracy 1.0000 (value-restricted 1.0000)
+  [seed 2] rtn-4bit         accuracy 0.9883 (value-restricted 0.9883)
+  [seed 2] rtn-2bit         accuracy 0.6250 (value-restricted 0.6250)
+  [seed 2] commvq-4bit      accuracy 0.8848 (value-restricted 0.8848)
+  [seed 2] naive-4bit       accuracy 0.9043 (value-restricted 0.9043)
+  [seed 2] commvq-2bit      accuracy 0.8555 (value-restricted 0.8555)
+  [seed 2] naive-2bit       accuracy 0.8867 (value-restricted 0.8867)
+  [seed 2] commvq-rtnv-4bit accuracy 0.9570 (value-restricted 0.9570)
+  [seed 2] commvq-rtnv-2bit accuracy 0.6836 (value-restricted 0.6836)
+
+=== retrieval accuracy over the query key (mean +- std over 3 seeds) ===
+  fp32             0.9980 +- 0.0028   per seed ['1.0000', '0.9941', '1.0000']
+  fp16             0.9980 +- 0.0028   per seed ['1.0000', '0.9941', '1.0000']
+  rtn-4bit         0.9928 +- 0.0033   per seed ['0.9941', '0.9961', '0.9883']
+  rtn-2bit         0.5898 +- 0.0253   per seed ['0.5664', '0.5781', '0.6250']
+  commvq-4bit      0.9525 +- 0.0479   per seed ['0.9883', '0.9844', '0.8848']
+  naive-4bit       0.9525 +- 0.0370   per seed ['0.9590', '0.9941', '0.9043']
+  commvq-2bit      0.8939 +- 0.0337   per seed ['0.9375', '0.8887', '0.8555']
+  naive-2bit       0.7715 +- 0.1826   per seed ['0.9141', '0.5137', '0.8867']
+  commvq-rtnv-4bit 0.9805 +- 0.0169   per seed ['0.9961', '0.9883', '0.9570']
+  commvq-rtnv-2bit 0.8145 +- 0.1337   per seed ['0.9980', '0.7617', '0.6836']
+
+=== cache size for 254 cached tokens, 2 layers, 4 heads of 16 (codebooks counted in fp16) ===
+  fp32               260096 B  (reference, not a quantization)
+  fp16               130048 B  (  0.0% below fp16, codebooks 0 B)
+  rtn-4bit            33024 B  ( 74.6% below fp16, codebooks 0 B)
+  rtn-2bit            16768 B  ( 87.1% below fp16, codebooks 0 B)
+  commvq-4bit         37632 B  ( 71.1% below fp16, codebooks 5120 B)
+  naive-4bit          38656 B  ( 70.3% below fp16, codebooks 6144 B)
+  commvq-2bit         18560 B  ( 85.7% below fp16, codebooks 2304 B)
+  naive-2bit          18816 B  ( 85.5% below fp16, codebooks 2560 B)
+  commvq-rtnv-4bit    33792 B  ( 74.0% below fp16, codebooks 1024 B)
+  commvq-rtnv-2bit    16768 B  ( 87.1% below fp16, codebooks 256 B)
+
+=== round-trip reconstruction error, relative MSE (mean over seeds) ===
+  keys  commutative  4bit: 0.00820
+  keys  commutative  2bit: 0.08452
+  keys  free         4bit: 0.00646
+  keys  free         2bit: 0.05748
+  values additive-encoder 4bit: 0.05346
+  values additive-encoder 2bit: 0.08558
+
+=== commutativity with RoPE (mean over seeds) ===
+  4bit commutative  rotate-then-dequant error 1.142e-07   folded attention error 1.800e-07   quantise-rotated-key 4.302e-01
+  4bit free         rotate-then-dequant error 1.039e+00   folded attention error 6.203e-01   quantise-rotated-key 4.616e-01
+  2bit commutative  rotate-then-dequant error 9.509e-08   folded attention error 1.789e-07   quantise-rotated-key 4.501e-01
+  2bit free         rotate-then-dequant error 1.237e+00   folded attention error 7.906e-01   quantise-rotated-key 6.065e-01
+
+total wall clock 205.0s

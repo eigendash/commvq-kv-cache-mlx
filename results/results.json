@@ -1,0 +1,690 @@
+{
+  "arxiv": "2506.18879",
+  "cache_bytes": {
+    "commvq-2bit": {
+      "codebooks": 2304,
+      "keys": 8128,
+      "total_with_codebooks": 18560,
+      "total_without_codebooks": 16256,
+      "values": 8128
+    },
+    "commvq-4bit": {
+      "codebooks": 5120,
+      "keys": 16256,
+      "total_with_codebooks": 37632,
+      "total_without_codebooks": 32512,
+      "values": 16256
+    },
+    "commvq-rtnv-2bit": {
+      "codebooks": 256,
+      "keys": 8128,
+      "total_with_codebooks": 16768,
+      "total_without_codebooks": 16512,
+      "values": 8384
+    },
+    "commvq-rtnv-4bit": {
+      "codebooks": 1024,
+      "keys": 16256,
+      "total_with_codebooks": 33792,
+      "total_without_codebooks": 32768,
+      "values": 16512
+    },
+    "fp16": {
+      "codebooks": 0,
+      "keys": 65024,
+      "total_with_codebooks": 130048,
+      "total_without_codebooks": 130048,
+      "values": 65024
+    },
+    "fp32": {
+      "codebooks": 0,
+      "keys": 130048,
+      "total_with_codebooks": 260096,
+      "total_without_codebooks": 260096,
+      "values": 130048
+    },
+    "naive-2bit": {
+      "codebooks": 2560,
+      "keys": 8128,
+      "total_with_codebooks": 18816,
+      "total_without_codebooks": 16256,
+      "values": 8128
+    },
+    "naive-4bit": {
+      "codebooks": 6144,
+      "keys": 16256,
+      "total_with_codebooks": 38656,
+      "total_without_codebooks": 32512,
+      "values": 16256
+    },
+    "rtn-2bit": {
+      "codebooks": 0,
+      "keys": 8384,
+      "total_with_codebooks": 16768,
+      "total_without_codebooks": 16768,
+      "values": 8384
+    },
+    "rtn-4bit": {
+      "codebooks": 0,
+      "keys": 16512,
+      "total_with_codebooks": 33024,
+      "total_without_codebooks": 33024,
+      "values": 16512
+    }
+  },
+  "commutativity": {
+    "2bit": {
+      "commutative": {
+        "folded_attention_rel_err": {
+          "mean": 1.7889230432742747e-07,
+          "per_seed": [
+            1.2371319776322665e-07,
+            2.3354396513725308e-07,
+            1.7941975008180265e-07
+          ],
+          "std": 4.4839774120451987e-08
+        },
+        "rotate_dequant_rel_err": {
+          "mean": 9.508623573474653e-08,
+          "per_seed": [
+            9.458433673407037e-08,
+            9.358064648319697e-08,
+            9.709372398697225e-08
+          ],
+          "std": 1.4774652487831511e-09
+        },
+        "rotate_quantise_rel_err": {
+          "mean": 0.45012472695777445,
+          "per_seed": [
+            0.4958241847591803,
+            0.3803847903634774,
+            0.47416520575066584
+          ],
+          "std": 0.05010004597506376
+        }
+      },
+      "free": {
+        "folded_attention_rel_err": {
+          "mean": 0.790620473408944,
+          "per_seed": [
+            1.0462776587766873,
+            0.5588064608583525,
+            0.7667773005917924
+          ],
+          "std": 0.1997221651319244
+        },
+        "rotate_dequant_rel_err": {
+          "mean": 1.2373795609994014,
+          "per_seed": [
+            1.3300802010766817,
+            1.1845216074125067,
+            1.1975368745090156
+          ],
+          "std": 0.06576425471562028
+        },
+        "rotate_quantise_rel_err": {
+          "mean": 0.6065185395727548,
+          "per_seed": [
+            0.5048333592091901,
+            0.6313751771446893,
+            0.683347082364385
+          ],
+          "std": 0.0749674447664641
+        }
+      }
+    },
+    "4bit": {
+      "commutative": {
+        "folded_attention_rel_err": {
+          "mean": 1.8002712462075246e-07,
+          "per_seed": [
+            1.5551767873850193e-07,
+            2.2595856474039364e-07,
+            1.5860513038336185e-07
+          ],
+          "std": 3.250288174929492e-08
+        },
+        "rotate_dequant_rel_err": {
+          "mean": 1.1424309722688987e-07,
+          "per_seed": [
+            8.761757674887487e-08,
+            8.898796493776019e-08,
+            1.661237499940346e-07
+          ],
+          "std": 3.668942708379658e-08
+        },
+        "rotate_quantise_rel_err": {
+          "mean": 0.4302052883079058,
+          "per_seed": [
+            0.3762686463633078,
+            0.4290323957235166,
+            0.485314822836893
+          ],
+          "std": 0.0445256398691657
+        }
+      },
+      "free": {
+        "folded_attention_rel_err": {
+          "mean": 0.6202555830022193,
+          "per_seed": [
+            0.5753737044826213,
+            0.6515264127964815,
+            0.633866631727555
+          ],
+          "std": 0.0325448842005065
+        },
+        "rotate_dequant_rel_err": {
+          "mean": 1.0390977565281931,
+          "per_seed": [
+            1.0337057868594068,
+            1.0705269440733547,
+            1.0130605386518183
+          ],
+          "std": 0.023768353479643622
+        },
+        "rotate_quantise_rel_err": {
+          "mean": 0.46158802290605455,
+          "per_seed": [
+            0.374591698610671,
+            0.5154928639309849,
+            0.4946795061765078
+          ],
+          "std": 0.062099754674419465
+        }
+      }
+    }
+  },
+  "config": {
+    "arms": {
+      "2bit": {
+        "n_levels": 4,
+        "n_stages": 1,
+        "value_codes": 2
+      },
+      "4bit": {
+        "n_levels": 16,
+        "n_stages": 1,
+        "value_codes": 4
+      }
+    },
+    "cached_tokens": 254,
+    "calibration_vectors": 8192,
+    "em_iters": 20,
+    "encoder_steps": 400,
+    "eval_batch": 32,
+    "eval_batches": 16,
+    "eval_sequences": 512,
+    "model": {
+      "blocks": 8,
+      "dim": 64,
+      "head_dim": 16,
+      "heads": 4,
+      "layers": 2
+    },
+    "parameters": 107776,
+    "task": {
+      "chance": 0.0625,
+      "n_pairs": 12,
+      "n_values": 16,
+      "seq_len": 256
+    },
+    "train": {
+      "batch": 32,
+      "lr": 0.003,
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "steps": 1500
+    }
+  },
+  "key_reconstruction_rel_mse": {
+    "commutative": {
+      "2bit": {
+        "mean": 0.08452337022817426,
+        "per_seed": [
+          0.07850090837823319,
+          0.09463198539396837,
+          0.08043721691232122
+        ],
+        "std": 0.007191448538015483
+      },
+      "4bit": {
+        "mean": 0.008199435619428952,
+        "per_seed": [
+          0.007814972071494685,
+          0.008919474631269228,
+          0.007863860155522942
+        ],
+        "std": 0.0005095355042382095
+      }
+    },
+    "free": {
+      "2bit": {
+        "mean": 0.0574844436289487,
+        "per_seed": [
+          0.05622919489601333,
+          0.061866095736181195,
+          0.05435804025465159
+        ],
+        "std": 0.003191077280437188
+      },
+      "4bit": {
+        "mean": 0.006461255935864513,
+        "per_seed": [
+          0.005830030315366027,
+          0.007447623119787375,
+          0.006106114372440134
+        ],
+        "std": 0.0007065152830536479
+      }
+    }
+  },
+  "note": "toy-scale independent implementation; the numbers are not comparable to the paper's, which uses LLaMA-3.1-8B on long-context benchmarks",
+  "paper": "CommVQ: Commutative Vector Quantization for KV Cache Compression",
+  "per_seed": [
+    {
+      "accuracy": {
+        "commvq-2bit": 0.9375,
+        "commvq-4bit": 0.98828125,
+        "commvq-rtnv-2bit": 0.998046875,
+        "commvq-rtnv-4bit": 0.99609375,
+        "fp16": 1.0,
+        "fp32": 1.0,
+        "naive-2bit": 0.9140625,
+        "naive-4bit": 0.958984375,
+        "rtn-2bit": 0.56640625,
+        "rtn-4bit": 0.994140625
+      },
+      "accuracy_value_restricted": {
+        "commvq-2bit": 0.9375,
+        "commvq-4bit": 0.98828125,
+        "commvq-rtnv-2bit": 0.998046875,
+        "commvq-rtnv-4bit": 0.99609375,
+        "fp16": 1.0,
+        "fp32": 1.0,
+        "naive-2bit": 0.9140625,
+        "naive-4bit": 0.958984375,
+        "rtn-2bit": 0.56640625,
+        "rtn-4bit": 0.994140625
+      },
+      "commutativity": {
+        "2bit": {
+          "commutative": {
+            "folded_attention_rel_err": 1.2371319776322665e-07,
+            "rotate_dequant_rel_err": 9.458433673407037e-08,
+            "rotate_quantise_rel_err": 0.4958241847591803
+          },
+          "free": {
+            "folded_attention_rel_err": 1.0462776587766873,
+            "rotate_dequant_rel_err": 1.3300802010766817,
+            "rotate_quantise_rel_err": 0.5048333592091901
+          }
+        },
+        "4bit": {
+          "commutative": {
+            "folded_attention_rel_err": 1.5551767873850193e-07,
+            "rotate_dequant_rel_err": 8.761757674887487e-08,
+            "rotate_quantise_rel_err": 0.3762686463633078
+          },
+          "free": {
+            "folded_attention_rel_err": 0.5753737044826213,
+            "rotate_dequant_rel_err": 1.0337057868594068,
+            "rotate_quantise_rel_err": 0.374591698610671
+          }
+        }
+      },
+      "final_train_loss": 0.0001426945127604995,
+      "key_reconstruction_rel_mse": {
+        "commutative": {
+          "2bit": 0.07850090837823319,
+          "4bit": 0.007814972071494685
+        },
+        "free": {
+          "2bit": 0.05622919489601333,
+          "4bit": 0.005830030315366027
+        }
+      },
+      "n_params": 107776,
+      "train_seconds": 45.5,
+      "value_reconstruction_rel_mse": {
+        "2bit": 0.07612826871878971,
+        "4bit": 0.04837112772611909
+      }
+    },
+    {
+      "accuracy": {
+        "commvq-2bit": 0.888671875,
+        "commvq-4bit": 0.984375,
+        "commvq-rtnv-2bit": 0.76171875,
+        "commvq-rtnv-4bit": 0.98828125,
+        "fp16": 0.994140625,
+        "fp32": 0.994140625,
+        "naive-2bit": 0.513671875,
+        "naive-4bit": 0.994140625,
+        "rtn-2bit": 0.578125,
+        "rtn-4bit": 0.99609375
+      },
+      "accuracy_value_restricted": {
+        "commvq-2bit": 0.888671875,
+        "commvq-4bit": 0.984375,
+        "commvq-rtnv-2bit": 0.76171875,
+        "commvq-rtnv-4bit": 0.98828125,
+        "fp16": 0.994140625,
+        "fp32": 0.994140625,
+        "naive-2bit": 0.513671875,
+        "naive-4bit": 0.994140625,
+        "rtn-2bit": 0.578125,
+        "rtn-4bit": 0.99609375
+      },
+      "commutativity": {
+        "2bit": {
+          "commutative": {
+            "folded_attention_rel_err": 2.3354396513725308e-07,
+            "rotate_dequant_rel_err": 9.358064648319697e-08,
+            "rotate_quantise_rel_err": 0.3803847903634774
+          },
+          "free": {
+            "folded_attention_rel_err": 0.5588064608583525,
+            "rotate_dequant_rel_err": 1.1845216074125067,
+            "rotate_quantise_rel_err": 0.6313751771446893
+          }
+        },
+        "4bit": {
+          "commutative": {
+            "folded_attention_rel_err": 2.2595856474039364e-07,
+            "rotate_dequant_rel_err": 8.898796493776019e-08,
+            "rotate_quantise_rel_err": 0.4290323957235166
+          },
+          "free": {
+            "folded_attention_rel_err": 0.6515264127964815,
+            "rotate_dequant_rel_err": 1.0705269440733547,
+            "rotate_quantise_rel_err": 0.5154928639309849
+          }
+        }
+      },
+      "final_train_loss": 0.0034531875542597847,
+      "key_reconstruction_rel_mse": {
+        "commutative": {
+          "2bit": 0.09463198539396837,
+          "4bit": 0.008919474631269228
+        },
+        "free": {
+          "2bit": 0.061866095736181195,
+          "4bit": 0.007447623119787375
+        }
+      },
+      "n_params": 107776,
+      "train_seconds": 44.9,
+      "value_reconstruction_rel_mse": {
+        "2bit": 0.1062646221042107,
+        "4bit": 0.06871942836019183
+      }
+    },
+    {
+      "accuracy": {
+        "commvq-2bit": 0.85546875,
+        "commvq-4bit": 0.884765625,
+        "commvq-rtnv-2bit": 0.68359375,
+        "commvq-rtnv-4bit": 0.95703125,
+        "fp16": 1.0,
+        "fp32": 1.0,
+        "naive-2bit": 0.88671875,
+        "naive-4bit": 0.904296875,
+        "rtn-2bit": 0.625,
+        "rtn-4bit": 0.98828125
+      },
+      "accuracy_value_restricted": {
+        "commvq-2bit": 0.85546875,
+        "commvq-4bit": 0.884765625,
+        "commvq-rtnv-2bit": 0.68359375,
+        "commvq-rtnv-4bit": 0.95703125,
+        "fp16": 1.0,
+        "fp32": 1.0,
+        "naive-2bit": 0.88671875,
+        "naive-4bit": 0.904296875,
+        "rtn-2bit": 0.625,
+        "rtn-4bit": 0.98828125
+      },
+      "commutativity": {
+        "2bit": {
+          "commutative": {
+            "folded_attention_rel_err": 1.7941975008180265e-07,
+            "rotate_dequant_rel_err": 9.709372398697225e-08,
+            "rotate_quantise_rel_err": 0.47416520575066584
+          },
+          "free": {
+            "folded_attention_rel_err": 0.7667773005917924,
+            "rotate_dequant_rel_err": 1.1975368745090156,
+            "rotate_quantise_rel_err": 0.683347082364385
+          }
+        },
+        "4bit": {
+          "commutative": {
+            "folded_attention_rel_err": 1.5860513038336185e-07,
+            "rotate_dequant_rel_err": 1.661237499940346e-07,
+            "rotate_quantise_rel_err": 0.485314822836893
+          },
+          "free": {
+            "folded_attention_rel_err": 0.633866631727555,
+            "rotate_dequant_rel_err": 1.0130605386518183,
+            "rotate_quantise_rel_err": 0.4946795061765078
+          }
+        }
+      },
+      "final_train_loss": 0.0006529609381686896,
+      "key_reconstruction_rel_mse": {
+        "commutative": {
+          "2bit": 0.08043721691232122,
+          "4bit": 0.007863860155522942
+        },
+        "free": {
+          "2bit": 0.05435804025465159,
+          "4bit": 0.006106114372440134
+        }
+      },
+      "n_params": 107776,
+      "train_seconds": 43.0,
+      "value_reconstruction_rel_mse": {
+        "2bit": 0.07434655557635561,
+        "4bit": 0.043277801222413856
+      }
+    }
+  ],
+  "retrieval_accuracy": {
+    "commvq-2bit": {
+      "mean": 0.8938802083333334,
+      "per_seed": [
+        0.9375,
+        0.888671875,
+        0.85546875
+      ],
+      "std": 0.033691013106603156
+    },
+    "commvq-4bit": {
+      "mean": 0.9524739583333334,
+      "per_seed": [
+        0.98828125,
+        0.984375,
+        0.884765625
+      ],
+      "std": 0.04790357327902905
+    },
+    "commvq-rtnv-2bit": {
+      "mean": 0.814453125,
+      "per_seed": [
+        0.998046875,
+        0.76171875,
+        0.68359375
+      ],
+      "std": 0.13368090785036552
+    },
+    "commvq-rtnv-4bit": {
+      "mean": 0.98046875,
+      "per_seed": [
+        0.99609375,
+        0.98828125,
+        0.95703125
+      ],
+      "std": 0.016876928902103804
+    },
+    "fp16": {
+      "mean": 0.998046875,
+      "per_seed": [
+        1.0,
+        0.994140625,
+        1.0
+      ],
+      "std": 0.0027621358640099515
+    },
+    "fp32": {
+      "mean": 0.998046875,
+      "per_seed": [
+        1.0,
+        0.994140625,
+        1.0
+      ],
+      "std": 0.0027621358640099515
+    },
+    "naive-2bit": {
+      "mean": 0.771484375,
+      "per_seed": [
+        0.9140625,
+        0.513671875,
+        0.88671875
+      ],
+      "std": 0.18264242667610234
+    },
+    "naive-4bit": {
+      "mean": 0.9524739583333334,
+      "per_seed": [
+        0.958984375,
+        0.994140625,
+        0.904296875
+      ],
+      "std": 0.036966326996297885
+    },
+    "rtn-2bit": {
+      "mean": 0.58984375,
+      "per_seed": [
+        0.56640625,
+        0.578125,
+        0.625
+      ],
+      "std": 0.025315393353155705
+    },
+    "rtn-4bit": {
+      "mean": 0.9928385416666666,
+      "per_seed": [
+        0.994140625,
+        0.99609375,
+        0.98828125
+      ],
+      "std": 0.0033196741624953027
+    }
+  },
+  "retrieval_accuracy_value_restricted": {
+    "commvq-2bit": {
+      "mean": 0.8938802083333334,
+      "per_seed": [
+        0.9375,
+        0.888671875,
+        0.85546875
+      ],
+      "std": 0.033691013106603156
+    },
+    "commvq-4bit": {
+      "mean": 0.9524739583333334,
+      "per_seed": [
+        0.98828125,
+        0.984375,
+        0.884765625
+      ],
+      "std": 0.04790357327902905
+    },
+    "commvq-rtnv-2bit": {
+      "mean": 0.814453125,
+      "per_seed": [
+        0.998046875,
+        0.76171875,
+        0.68359375
+      ],
+      "std": 0.13368090785036552
+    },
+    "commvq-rtnv-4bit": {
+      "mean": 0.98046875,
+      "per_seed": [
+        0.99609375,
+        0.98828125,
+        0.95703125
+      ],
+      "std": 0.016876928902103804
+    },
+    "fp16": {
+      "mean": 0.998046875,
+      "per_seed": [
+        1.0,
+        0.994140625,
+        1.0
+      ],
+      "std": 0.0027621358640099515
+    },
+    "fp32": {
+      "mean": 0.998046875,
+      "per_seed": [
+        1.0,
+        0.994140625,
+        1.0
+      ],
+      "std": 0.0027621358640099515
+    },
+    "naive-2bit": {
+      "mean": 0.771484375,
+      "per_seed": [
+        0.9140625,
+        0.513671875,
+        0.88671875
+      ],
+      "std": 0.18264242667610234
+    },
+    "naive-4bit": {
+      "mean": 0.9524739583333334,
+      "per_seed": [
+        0.958984375,
+        0.994140625,
+        0.904296875
+      ],
+      "std": 0.036966326996297885
+    },
+    "rtn-2bit": {
+      "mean": 0.58984375,
+      "per_seed": [
+        0.56640625,
+        0.578125,
+        0.625
+      ],
+      "std": 0.025315393353155705
+    },
+    "rtn-4bit": {
+      "mean": 0.9928385416666666,
+      "per_seed": [
+        0.994140625,
+        0.99609375,
+        0.98828125
+      ],
+      "std": 0.0033196741624953027
+    }
+  },
+  "value_reconstruction_rel_mse": {
+    "2bit": {
+      "mean": 0.085579815466452,
+      "std": 0.014644442510421947
+    },
+    "4bit": {
+      "mean": 0.05345611910290826,
+      "std": 0.010991267771309652
+    }
+  },
+  "wall_clock_seconds": 205.0
+}
