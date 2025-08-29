@@ -13,8 +13,14 @@ def data(n=4096, dim=16, seed=0):
     return mx.array(rng.normal(0, 1, (n, 3)).astype(np.float32) @ basis.T)
 
 
+def encoder(dim, n_codes, seed=0):
+    """An encoder with deterministic weights: MLX's global RNG is not seeded."""
+    mx.random.seed(seed)
+    return AdditiveEncoder(dim=dim, n_codes=n_codes, seed=seed)
+
+
 def test_decode_is_a_matmul_and_matches_the_explicit_sum():
-    enc = AdditiveEncoder(dim=4, n_codes=3, seed=0)
+    enc = encoder(dim=4, n_codes=3)
     enc.codebook = mx.array([[1.0, 0.0, 0.0, 0.0],
                              [0.0, 2.0, 0.0, 0.0],
                              [0.0, 0.0, 0.0, -1.0]])
@@ -29,7 +35,7 @@ def test_decode_is_a_matmul_and_matches_the_explicit_sum():
 
 def test_codes_are_binary_and_soft_codes_stay_in_the_unit_interval():
     x = data(64)
-    enc = AdditiveEncoder(dim=16, n_codes=8, seed=0)
+    enc = encoder(dim=16, n_codes=8)
     hard = np.array(enc.encode(x))
     assert hard.shape == (64, 8)
     assert set(np.unique(hard)) <= {0.0, 1.0}
@@ -39,12 +45,18 @@ def test_codes_are_binary_and_soft_codes_stay_in_the_unit_interval():
 
 
 def test_low_temperature_drives_soft_codes_to_the_hard_code():
+    # fixed logits first, so that the temperature is the only thing under test
+    logits = mx.array([[8.0, -8.0, 4.0], [-0.01, 0.02, 9.0]])
+    cold = np.array(gumbel_sigmoid(logits, temperature=1e-9))
+    np.testing.assert_allclose(cold, [[1.0, 0.0, 1.0], [0.0, 1.0, 1.0]], atol=1e-6)
+    np.testing.assert_array_equal(
+        np.round(cold), np.array((mx.sigmoid(logits) > 0.5).astype(mx.float32)))
+    # and on a real encoder: rounding the relaxed code is the hard code
     x = data(64)
-    enc = AdditiveEncoder(dim=16, n_codes=8, seed=0)
-    cold = np.array(enc.encode_soft(x, temperature=1e-6))
-    assert np.all((cold < 1e-3) | (cold > 1 - 1e-3))
-    assert (np.round(cold) == np.array(enc.encode(x))).mean() > 0.99
-    # with Gumbel noise the code is only *close* to the hard code on average
+    enc = encoder(dim=16, n_codes=8)
+    soft = np.array(enc.encode_soft(x, temperature=1e-9))
+    np.testing.assert_array_equal(np.round(soft), np.array(enc.encode(x)))
+    # with Gumbel noise the code is binary but not the same code
     noisy = np.array(enc.encode_soft(x, temperature=1e-3, key=mx.random.key(0)))
     assert set(np.unique(np.round(noisy))) <= {0.0, 1.0}
 
@@ -61,7 +73,7 @@ def test_gumbel_sigmoid_relaxes_the_step_function():
 
 def test_training_reduces_the_reconstruction_error():
     x = data(4096)
-    enc = AdditiveEncoder(dim=16, n_codes=16, seed=0)
+    enc = encoder(dim=16, n_codes=16)
     before = enc.reconstruction_error(x)
     losses = enc.fit(x, steps=80, lr=3e-3, batch=256, seed=0)
     after = enc.reconstruction_error(x)
@@ -71,7 +83,7 @@ def test_training_reduces_the_reconstruction_error():
 
 def test_gradients_are_finite_and_reach_encoder_and_codebook():
     x = data(256)
-    enc = AdditiveEncoder(dim=16, n_codes=8, seed=0)
+    enc = encoder(dim=16, n_codes=8)
 
     def loss(model):
         return mx.mean((model(x, temperature=1.0, key=mx.random.key(1)) - x) ** 2)
@@ -97,7 +109,7 @@ def test_bits_per_scalar_is_the_code_length_over_the_dimension():
 
 def test_encoder_shapes_are_a_contract():
     x = data(8, dim=16)
-    enc = AdditiveEncoder(dim=16, n_codes=5, seed=0)
+    enc = encoder(dim=16, n_codes=5)
     assert enc.logits(x).shape == (8, 5)
     assert enc.encode(x).shape == (8, 5)
     assert enc(x, key=mx.random.key(0)).shape == (8, 16)
